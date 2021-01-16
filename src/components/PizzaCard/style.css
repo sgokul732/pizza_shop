@@ -1,0 +1,18 @@
+.pizza{
+    margin: 20px;
+}
+
+.pizza img{
+    height:400px;
+    width:50%;
+}
+
+.nv{
+    color:red;
+    font-size: large;
+}
+
+.veg{
+    color:green;
+    font-size: large;
+}
