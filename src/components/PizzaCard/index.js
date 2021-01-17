@@ -4,6 +4,7 @@ import "./style.css";
 
 import {
   Card,
+  Alert, 
   CardText,
   CardBody,
   CardLink,
@@ -12,9 +13,13 @@ import {
   CardImg,
   Row,
   Col,
+  ToastHeader,
+  ToastBody,
+  Toast
 } from "reactstrap";
 import PizzaBooking from "../PizzaBooking";
 import { useHistory } from "react-router-dom";
+
 
 const PizzaCard = (props) => {
   const {
@@ -25,6 +30,7 @@ const PizzaCard = (props) => {
     price,
     type,
     toppings,
+
     size,
     id,
     getFromCart,
@@ -34,7 +40,8 @@ const PizzaCard = (props) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [cart, setCart] = useState(false);
+  const [removeCart, setRemoveCart] = useState(false);
   const sizeList = size && size[0].items.map((entry) => entry.size);
 
   const toppingsList = toppings && toppings[0].items.map((entry) => entry.name);
@@ -98,7 +105,10 @@ const PizzaCard = (props) => {
     localStorage.setItem("cart", JSON.stringify(cartData));
     setFound(true);
     handleClose();
-    goToCart();
+    setCartSize(getFromCart());
+    setCart(true);
+setTimeout(()=>{setCart(false)},2000);
+
   };
 
   const findItem = (id) => {
@@ -135,10 +145,28 @@ const PizzaCard = (props) => {
    
     localStorage.setItem("cart", JSON.stringify(cartData));
     setCartSize(getFromCart());
+    setRemoveCart(true);
+    setTimeout(()=>{setRemoveCart(false)},2000);
   };
 
   return (
     <>
+    { cart && <Toast>
+          <ToastHeader icon="success">
+            {name}
+          </ToastHeader>
+          <ToastBody>
+            Pizza added to Cart successfully
+          </ToastBody>
+        </Toast>}
+        { removeCart && <Toast>
+          <ToastHeader icon="danger">
+            {name}
+          </ToastHeader>
+          <ToastBody>
+            Pizza Removed from Cart 
+          </ToastBody>
+        </Toast>}
       <Row>
         <Col>
           <Card>
