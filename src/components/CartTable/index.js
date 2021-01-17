@@ -30,7 +30,7 @@ const CartTable = (props) => {
     const newData = cartData.find((entry) => entry.id === id);
     if (newData.quantity > 1) {
       const data = { ...newData };
-      const rate = data.price / data.quantity;
+      const rate = parseInt(data.price / data.quantity);
       data.price -= rate;
       data.quantity -= 1;
       cartData[dataIndex] = data;

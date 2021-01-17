@@ -88,6 +88,7 @@ const PizzaCard = (props) => {
     } else if (foundIndex > -1) {
       let newObj = {
         ...foundData,
+        details,
         quantity: foundData.quantity + 1,
         price: foundData.price + foundData.price,
       };
