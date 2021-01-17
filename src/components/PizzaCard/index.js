@@ -50,11 +50,13 @@ const PizzaCard = (props) => {
 
     if (e.target.name.localeCompare("addon") === 0) {
       setDetails({
+        ...details,
         addons: value,
       });
     }
     if (e.target.name.localeCompare("top") === 0) {
       setDetails({
+        ...details,
         toppings: value,
       });
     }
@@ -148,13 +150,13 @@ const PizzaCard = (props) => {
       {cart && (
         <Toast>
           <ToastHeader icon="success">{name}</ToastHeader>
-          <ToastBody>Pizza added to Cart successfully</ToastBody>
+          <ToastBody>One Pizza added to the Cart Successfully</ToastBody>
         </Toast>
       )}
       {removeCart && (
         <Toast>
           <ToastHeader icon="danger">{name}</ToastHeader>
-          <ToastBody>Pizza Removed from Cart</ToastBody>
+          <ToastBody>One Pizza Removed from the Cart Successfully</ToastBody>
         </Toast>
       )}
       <Row>
