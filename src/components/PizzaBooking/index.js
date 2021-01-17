@@ -49,7 +49,7 @@ const PizzaBooking = (props) => {
               name="quantity"
               id="quantity"
               min="1"
-              placeholder="Quantity should be greater than or equal to 1"
+              placeholder="Quantity should be greater than zero"
               onChange={(e) => handleChange(e)}
             />
           </FormGroup>
@@ -57,7 +57,7 @@ const PizzaBooking = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleSubmit}>
-          OK
+          Add To Cart
         </Button>
       </Modal.Footer>
     </Modal>
