@@ -61,9 +61,9 @@ const CartTable = (props) => {
       return (
         <tr key={i}>
           <td>{entry.name}</td>
-          <td>{entry.details.addons && entry.details.addons.join(",")}</td>
+          <td>{entry.details.addons}</td>
           <td>{entry.details.toppings && entry.details.toppings.join(",")}</td>
-          <td>{entry.details.quantity && entry.details.quantity}</td>
+          <td>{entry.details.quantity}</td>
           <td>
             <ButtonGroup size="sm">
               <Button color="success" onClick={() => addToCart(entry.gid)}>

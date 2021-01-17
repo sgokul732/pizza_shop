@@ -1,7 +1,7 @@
 import { Button, Modal } from "react-bootstrap";
 import React from "react";
 import { Form, FormGroup, Label, Input } from "reactstrap";
-
+import "./style.css";
 const PizzaBooking = (props) => {
   const { sizeList, toppingsList, handleSubmit, handleChange } = props;
 
@@ -12,21 +12,28 @@ const PizzaBooking = (props) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <FormGroup>
-            <Label for="addon">Add-Ons</Label>
-            <Input
-              type="select"
-              name="addon"
-              id="addon"
-              multiple
-              onChange={(e) => handleChange(e)}
-            >
-              {sizeList &&
-                sizeList.map((item, i) => {
-                  return <option key={i}>{item}</option>;
-                })}
-            </Input>
-          </FormGroup>
+          <Label>
+            Add-Ons<span className="warning">*</span>
+          </Label>
+          {sizeList &&
+            sizeList.map((item, i) => {
+              return (
+                <div key={i}>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="radio"
+                        name="addon"
+                        value={item}
+                        onChange={(e) => handleChange(e)}
+                      />
+                      {item}
+                    </Label>
+                  </FormGroup>
+                </div>
+              );
+            })}
+
           <FormGroup>
             <Label for="top">Toppings</Label>
             <Input
@@ -43,7 +50,9 @@ const PizzaBooking = (props) => {
             </Input>
           </FormGroup>
           <FormGroup>
-            <Label for="exampleNumber">Quantity</Label>
+            <Label for="exampleNumber">
+              Quantity<span className="warning">*</span>
+            </Label>
             <Input
               type="number"
               name="quantity"
@@ -54,6 +63,7 @@ const PizzaBooking = (props) => {
             />
           </FormGroup>
         </Form>
+        <div className="warning">*Indicates a required field</div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleSubmit}>

@@ -28,9 +28,7 @@ const PizzaCard = (props) => {
     price,
     type,
     toppings,
-
     size,
-
     getFromCart,
     setCartSize,
   } = props;
@@ -44,10 +42,11 @@ const PizzaCard = (props) => {
 
   const toppingsList = toppings && toppings[0].items.map((entry) => entry.name);
 
-  const [details, setDetails] = useState({ toppings: [], addons: [] });
+  const [details, setDetails] = useState({ toppings: [], addons: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     if (name.localeCompare("quantity") === 0) {
       const quant = value && parseInt(value) > 0 ? parseInt(value) : 0;
       setDetails({
@@ -58,10 +57,9 @@ const PizzaCard = (props) => {
     }
 
     if (name.localeCompare("addon") === 0) {
-      let val = Array.from(e.target.selectedOptions, (option) => option.value);
       setDetails({
         ...details,
-        addons: val,
+        addons: value,
       });
     }
     if (name.localeCompare("top") === 0) {
@@ -74,7 +72,7 @@ const PizzaCard = (props) => {
   };
 
   const handleSubmit = () => {
-    if (!details.quantity) {
+    if (!details.quantity || !details.addons) {
       return;
     }
     let gid = uuid.v4();
