@@ -82,7 +82,7 @@ const CartTable = (props) => {
     return (
       <div className="cart">
         <h3 className="hero">My Cart</h3>
-        <Table centered striped bordered hover size="sm">
+        <Table responsive centered striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Product Name</th>
@@ -95,7 +95,9 @@ const CartTable = (props) => {
           </thead>
           <tbody>{cartList}</tbody>
         </Table>
-        <h3>Amount Payable : Rs. {total}/- </h3>
+        <h3>
+          Amount Payable <br></br> Rs. {total}/-{" "}
+        </h3>
       </div>
     );
   }
