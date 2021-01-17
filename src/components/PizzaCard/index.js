@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./style.css";
+import * as uuid from "uuid";
 
 import {
   Card,
@@ -29,7 +30,7 @@ const PizzaCard = (props) => {
     toppings,
 
     size,
-    id,
+
     getFromCart,
     setCartSize,
   } = props;
@@ -38,7 +39,7 @@ const PizzaCard = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [cart, setCart] = useState(false);
-  const [removeCart, setRemoveCart] = useState(false);
+
   const sizeList = size && size[0].items.map((entry) => entry.size);
 
   const toppingsList = toppings && toppings[0].items.map((entry) => entry.name);
@@ -46,58 +47,58 @@ const PizzaCard = (props) => {
   const [details, setDetails] = useState({ toppings: [], addons: [] });
 
   const handleChange = (e) => {
-    let value = Array.from(e.target.selectedOptions, (option) => option.value);
-
-    if (e.target.name.localeCompare("addon") === 0) {
+    const { name, value } = e.target;
+    if (name.localeCompare("quantity") === 0) {
+      const quant = value && parseInt(value) > 0 ? parseInt(value) : 0;
       setDetails({
         ...details,
-        addons: value,
+        [name]: quant,
+      });
+      return;
+    }
+
+    if (name.localeCompare("addon") === 0) {
+      let val = Array.from(e.target.selectedOptions, (option) => option.value);
+      setDetails({
+        ...details,
+        addons: val,
       });
     }
-    if (e.target.name.localeCompare("top") === 0) {
+    if (name.localeCompare("top") === 0) {
+      let val = Array.from(e.target.selectedOptions, (option) => option.value);
       setDetails({
         ...details,
-        toppings: value,
+        toppings: val,
       });
     }
   };
-  useEffect(() => {
-    const foundItem = findItem(id);
-    setFound(foundItem);
-  }, [id]);
 
   const handleSubmit = () => {
-    let obj = {
-      id,
-      name,
-      price,
-      details,
-      quantity: 1,
-    };
-    let cartData = JSON.parse(localStorage.getItem("cart"));
-    const foundIndex =
-      cartData &&
-      cartData.findIndex((entry) => parseInt(entry.id) === parseInt(id));
-    const foundData =
-      cartData && cartData.find((entry) => parseInt(entry.id) === parseInt(id));
-
-    if (!cartData) {
-      let arr = [];
-      arr.push(obj);
-      cartData = arr;
-    } else if (foundIndex > -1) {
-      let newObj = {
-        ...foundData,
-        details,
-        quantity: foundData.quantity + 1,
-        price: foundData.price + foundData.price,
-      };
-      cartData[foundIndex] = newObj;
-    } else {
-      cartData.push(obj);
+    if (!details.quantity) {
+      return;
     }
+    let gid = uuid.v4();
+    let obj = {
+      gid,
+      name,
+      details: {
+        ...details,
+        rate: price,
+      },
+    };
+    let newObj = {
+      ...obj,
+      details: {
+        ...obj.details,
+        total: obj.details.rate * details.quantity,
+      },
+    };
+
+    let cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cartData.push(newObj);
+
     localStorage.setItem("cart", JSON.stringify(cartData));
-    setFound(true);
     handleClose();
     setCartSize(getFromCart());
     setCart(true);
@@ -106,58 +107,14 @@ const PizzaCard = (props) => {
     }, 2000);
   };
 
-  const findItem = (id) => {
-    const cartData = JSON.parse(localStorage.getItem("cart"));
-    if (!cartData) {
-      return false;
-    }
-    const foundIndex = cartData.findIndex(
-      (entry) => parseInt(entry.id) === parseInt(id)
-    );
-    if (foundIndex >= 0) {
-      return true;
-    }
-    return false;
-  };
-
-  const [found, setFound] = useState(findItem(id));
-  const handleDelete = (id) => {
-    let cartData = JSON.parse(localStorage.getItem("cart"));
-    const foundIndex =
-      cartData &&
-      cartData.findIndex((entry) => parseInt(entry.id) === parseInt(id));
-    const foundData =
-      cartData && cartData.find((entry) => parseInt(entry.id) === parseInt(id));
-    if (!foundData) {
-      return;
-    }
-    if (foundData.quantity > 1) {
-      foundData.quantity -= 1;
-    } else {
-      cartData.splice(foundIndex, 1);
-      setFound(false);
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cartData));
-    setCartSize(getFromCart());
-    setRemoveCart(true);
-    setTimeout(() => {
-      setRemoveCart(false);
-    }, 2000);
-  };
-
   return (
     <>
       {cart && (
         <Toast>
           <ToastHeader icon="success">{name}</ToastHeader>
-          <ToastBody>One Pizza added to the Cart Successfully</ToastBody>
-        </Toast>
-      )}
-      {removeCart && (
-        <Toast>
-          <ToastHeader icon="danger">{name}</ToastHeader>
-          <ToastBody>One Pizza Removed from the Cart Successfully</ToastBody>
+          <ToastBody>
+            {details.quantity} Pizza added to the Cart Successfully
+          </ToastBody>
         </Toast>
       )}
       <Row>
@@ -181,9 +138,6 @@ const PizzaCard = (props) => {
                   <CardText>Price : {price}</CardText>
                   <CardText>{description}</CardText>
                   <CardLink onClick={handleShow}>Add to Cart</CardLink>
-                  {found && (
-                    <CardLink onClick={() => handleDelete(id)}>Remove</CardLink>
-                  )}
                 </CardBody>
               </Col>
             </Row>

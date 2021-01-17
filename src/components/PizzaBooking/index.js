@@ -42,6 +42,17 @@ const PizzaBooking = (props) => {
                 })}
             </Input>
           </FormGroup>
+          <FormGroup>
+            <Label for="exampleNumber">Quantity</Label>
+            <Input
+              type="number"
+              name="quantity"
+              id="quantity"
+              min="1"
+              placeholder="Quantity should be greater than or equal to 1"
+              onChange={(e) => handleChange(e)}
+            />
+          </FormGroup>
         </Form>
       </Modal.Body>
       <Modal.Footer>
