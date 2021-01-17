@@ -4,7 +4,6 @@ import "./style.css";
 
 import {
   Card,
-  Alert, 
   CardText,
   CardBody,
   CardLink,
@@ -15,11 +14,9 @@ import {
   Col,
   ToastHeader,
   ToastBody,
-  Toast
+  Toast,
 } from "reactstrap";
 import PizzaBooking from "../PizzaBooking";
-import { useHistory } from "react-router-dom";
-
 
 const PizzaCard = (props) => {
   const {
@@ -34,7 +31,7 @@ const PizzaCard = (props) => {
     size,
     id,
     getFromCart,
-    setCartSize
+    setCartSize,
   } = props;
 
   const [show, setShow] = useState(false);
@@ -47,12 +44,6 @@ const PizzaCard = (props) => {
   const toppingsList = toppings && toppings[0].items.map((entry) => entry.name);
 
   const [details, setDetails] = useState({ toppings: [], addons: [] });
-
-  const page = useHistory();
-
-  const goToCart = () => {
-    page.push("/cart");
-  };
 
   const handleChange = (e) => {
     let value = Array.from(e.target.selectedOptions, (option) => option.value);
@@ -107,8 +98,9 @@ const PizzaCard = (props) => {
     handleClose();
     setCartSize(getFromCart());
     setCart(true);
-setTimeout(()=>{setCart(false)},2000);
-
+    setTimeout(() => {
+      setCart(false);
+    }, 2000);
   };
 
   const findItem = (id) => {
@@ -142,31 +134,29 @@ setTimeout(()=>{setCart(false)},2000);
       cartData.splice(foundIndex, 1);
       setFound(false);
     }
-   
+
     localStorage.setItem("cart", JSON.stringify(cartData));
     setCartSize(getFromCart());
     setRemoveCart(true);
-    setTimeout(()=>{setRemoveCart(false)},2000);
+    setTimeout(() => {
+      setRemoveCart(false);
+    }, 2000);
   };
 
   return (
     <>
-    { cart && <Toast>
-          <ToastHeader icon="success">
-            {name}
-          </ToastHeader>
-          <ToastBody>
-            Pizza added to Cart successfully
-          </ToastBody>
-        </Toast>}
-        { removeCart && <Toast>
-          <ToastHeader icon="danger">
-            {name}
-          </ToastHeader>
-          <ToastBody>
-            Pizza Removed from Cart 
-          </ToastBody>
-        </Toast>}
+      {cart && (
+        <Toast>
+          <ToastHeader icon="success">{name}</ToastHeader>
+          <ToastBody>Pizza added to Cart successfully</ToastBody>
+        </Toast>
+      )}
+      {removeCart && (
+        <Toast>
+          <ToastHeader icon="danger">{name}</ToastHeader>
+          <ToastBody>Pizza Removed from Cart</ToastBody>
+        </Toast>
+      )}
       <Row>
         <Col>
           <Card>

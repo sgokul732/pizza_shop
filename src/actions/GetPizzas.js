@@ -1,4 +1,3 @@
-
 import axios from "axios";
 
 export const getPizzas = () => {
@@ -22,15 +21,16 @@ export const getPizzasFailure = (data) => {
 };
 
 export const fetchPizzas = () => {
-  const BASE_URL = "https://run.mocky.io/v3/ec196a02-aaf4-4c91-8f54-21e72f241b68";
+  const BASE_URL =
+    "https://run.mocky.io/v3/ec196a02-aaf4-4c91-8f54-21e72f241b68";
   let URI = BASE_URL;
   return (dispatch) => {
     dispatch(getPizzas());
     axios
       .get(URI)
       .then((res) => {
-        const pizzaList = res.data; 
-          
+        const pizzaList = res.data;
+
         dispatch(getPizzasSuccess(pizzaList));
       })
       .catch((err) => {

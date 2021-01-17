@@ -6,7 +6,7 @@ export const PizzaListReducer = (state = {}, action) => {
         data: [],
         error: "",
       };
-    case "GET_PIZZAS_SUCCESS": 
+    case "GET_PIZZAS_SUCCESS":
       return {
         loading: false,
         data: action.payload,
@@ -22,4 +22,3 @@ export const PizzaListReducer = (state = {}, action) => {
       return state;
   }
 };
-

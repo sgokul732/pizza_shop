@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -13,26 +13,19 @@ import {
 } from "reactstrap";
 
 const Header = (props) => {
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-  const [cartData, setCartData] = useState([]);
-  
+
+
   const page = useHistory();
-  
+
   const goToCart = () => {
-     page.push("/cart");
+    page.push("/cart");
   };
 
- 
-
-  // useEffect(()=>{
-  //   setCartData(getFromCart())    
-  // },[])
-
- 
   
+
   return (
     <Navbar color="light" light expand="md">
       <NavbarBrand href="/">Dominos Pizza</NavbarBrand>
@@ -41,7 +34,7 @@ const Header = (props) => {
         <Nav className="mr-auto" navbar></Nav>
         <NavbarText>
           <Button variant="primary" onClick={goToCart}>
-            Cart <Badge variant="light">{ props.cartSize}</Badge>
+            Cart <Badge variant="light">{props.cartSize}</Badge>
             <span className="sr-only">unread messages</span>
           </Button>
         </NavbarText>

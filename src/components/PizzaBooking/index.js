@@ -1,11 +1,10 @@
 import { Button, Modal } from "react-bootstrap";
 import React from "react";
-import {  Form, FormGroup, Label, Input } from "reactstrap";
+import { Form, FormGroup, Label, Input } from "reactstrap";
 
 const PizzaBooking = (props) => {
   const { sizeList, toppingsList, handleSubmit, handleChange } = props;
 
-  
   return (
     <Modal show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
@@ -46,7 +45,7 @@ const PizzaBooking = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={handleSubmit }>
+        <Button variant="primary" onClick={handleSubmit}>
           OK
         </Button>
       </Modal.Footer>
